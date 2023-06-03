@@ -1,0 +1,31 @@
+# docker-compose.yaml
+version: '3'
+
+services:
+  tensorflow:
+    build:
+      context: .
+      dockerfile: docker/${TF_IMAGE}/Dockerfile
+    container_name: ml_sample_tensorflow
+    ports:
+      - "8888:8888"
+    depends_on:
+      - db
+    volumes:
+      - ./:/app
+      - ./notebooks:/tf/notebooks
+
+  db:
+    image: postgres:15
+    container_name: ml_sample_db
+    volumes:
+      - ml_sample_db_data:/var/lib/postgresql/data:rw
+    environment:
+      POSTGRES_PASSWORD: postgrespass
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+
+volumes:
+  ml_sample_db_data:
