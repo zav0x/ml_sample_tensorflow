@@ -14,6 +14,8 @@ services:
     volumes:
       - ./:/app
       - ./notebooks:/tf/notebooks
+    environment:
+      - NVIDIA_VISIBLE_DEVICES
 
   db:
     image: postgres:15
